@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Notas.Models;
 using Notas.Data;
-using Microsoft.EntityFrameworkCore;
 
-[Route("api/[Notas]")]
+[Route("api/[Controller]")]
 [ApiController]
 
 public class NotasController : ControllerBase
@@ -16,9 +16,9 @@ public class NotasController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Nota>>> GetNotas()
+    public ActionResult<IEnumerable<Nota>> GetNotas()
     {
-        return await _context.Notas.ToListAsync();
+        return _context.Notas.ToList();
     }
 
 }

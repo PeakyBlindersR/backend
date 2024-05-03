@@ -14,7 +14,15 @@ builder.Services.AddDbContext<BaseContext> (options => options.UseMySql(
     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")));
 
 var app = builder.Build();
-app.MapControllers();
+
+// Configure CORS
+app.UseCors(builder =>
+{
+    builder.AllowAnyOrigin()  // Permitir solicitudes desde cualquier origen
+           .AllowAnyMethod()  // Permitir cualquier método (GET, POST, etc.)
+           .AllowAnyHeader(); // Permitir cualquier encabezado HTTP
+});
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -45,6 +53,7 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast")
 .WithOpenApi();
 
+app.MapControllers();
 
 app.Run();
 
