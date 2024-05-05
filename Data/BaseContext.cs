@@ -9,4 +9,14 @@ public class BaseContext : DbContext
 
     }
     public DbSet<Nota> Notas { get; set; }
+
+    internal object GetNotaById(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    internal async Task UpdateNota(Nota nota)
+    {
+        throw new NotImplementedException();
+    }
 }
