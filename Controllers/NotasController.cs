@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Notas.Models;
 using Notas.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 [Route("api/[Controller]")]
 [ApiController]
@@ -15,21 +16,24 @@ public class NotasController : ControllerBase
         _context = context;
     }
 
-    //listar notas
+    //LISTAR NOTAS
     [HttpGet]
     public ActionResult<IEnumerable<Nota>> GetNotas()
     {
         return _context.Notas.ToList();
     }
 
-    //crear nota
-    /* [HttpPost]
-    public ActionResult<Nota> PostNota(Nota nota)
+    [HttpGet("{id}")]
+    public ActionResult<Nota> GetNota(int? Id)
     {
-        _context.Notas.Add(nota);
-        _context.SaveChanges();
-        return CreatedAtAction("GetNotas", new { id = nota.Id }, nota);
-    } */
+        var nota = _context.Notas.FirstOrDefault(m => m.Id == Id);
+        return nota;
+    }
+
+    //-----------------------------------------------------------------------
+
+
+    //CREAR NOTA
     [HttpPost]
     public ActionResult<Nota> PostNota(Nota nota)
     {
@@ -54,7 +58,9 @@ public class NotasController : ControllerBase
         }
     }
 
-    //Eliminar nota
+    //-------------------------------------------------------------------------------------------------------
+
+    //ELIMINAR NOTA
     [HttpDelete("{id}")]
     public ActionResult<Nota> DeleteNota(int id)
     {
@@ -68,45 +74,53 @@ public class NotasController : ControllerBase
         return nota;
     }
 
-    private bool NotaExists(int id)
-    {
-        return _context.Notas.Any(n => n.Id == id);
-    }
+    //------------------------------------------------------------------------------
 
-    //actualizar nota
+    //ACTUALIZAR NOTA
     [HttpPut("{id}")]
-    public async Task<ActionResult<Nota>> UpdateNota(int id, [FromBody] Nota nota)
+    public ActionResult<Nota> PutNota(int id, Nota nota)
     {
-        // Validate the incoming nota data (optional)
-
-        // Check if the note exists
-        var existingNota = await _context.Notas.FindAsync(id);
+        var existingNota = _context.Notas.FirstOrDefault(n => n.Id == id);
         if (existingNota == null)
         {
             return NotFound();
         }
 
-        // Update existing note properties
-        existingNota.Title = nota.Title; // Update other properties as needed
-        _context.Notas.Update(existingNota); // Mark the entity as modified
+        existingNota.Title = nota.Title;
+        existingNota.Content = nota.Content;
+        existingNota.Date = nota.Date;
 
-        try
+        _context.SaveChanges();
+
+        return nota;
+    }
+
+    //BUSCAR NOTA
+    /* [HttpGet("{id}")]
+    public ActionResult<Nota> Search(string word, DateOnly date)
+    {
+        var notaEncontrada = _context.Notas.Where(i => i.Title.Contains(word) || i.Content.Contains(word) || i.Date.Contains(date)).ToList();
+        return notaEncontrada;
+    } */
+
+    [HttpGet("{id}")] // Adjust route if needed
+    public ActionResult<IEnumerable<Nota>> Search(string word, DateOnly? date) // Make date nullable
+    {
+        var query = _context.Notas.AsQueryable(); // Start with a queryable
+
+        // Filter by word (optional)
+        if (!string.IsNullOrEmpty(word))
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!NotaExists(id))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
+            query = query.Where(i => i.Title.Contains(word) || i.Content.Contains(word));
         }
 
-        return Ok(existingNota); // Return the updated note
+        // Filter by date (if provided)
+        if (date.HasValue)
+        {
+            query = query.Where(i => i.Date == date.Value);
+        }
+
+        return query.ToList(); // Execute the query and return notes
     }
 
 
