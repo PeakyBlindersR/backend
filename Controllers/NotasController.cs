@@ -3,7 +3,7 @@ using Notas.Models;
 using Notas.Data;
 using Microsoft.EntityFrameworkCore;
 
-[Route("api/[Notas]")]
+[Route("api/[Controller]")]
 [ApiController]
 
 public class NotasController : ControllerBase
