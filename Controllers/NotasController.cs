@@ -96,32 +96,13 @@ public class NotasController : ControllerBase
     }
 
     //BUSCAR NOTA
-    /* [HttpGet("{id}")]
-    public ActionResult<Nota> Search(string word, DateOnly date)
+    [HttpGet("search")]
+    [Route("Frontend/Index.html{word}")]
+    public ActionResult<IEnumerable<Nota>> SearchNota(string word)
     {
-        var notaEncontrada = _context.Notas.Where(i => i.Title.Contains(word) || i.Content.Contains(word) || i.Date.Contains(date)).ToList();
-        return notaEncontrada;
-    } */
-
-    [HttpGet("{id}")] // Adjust route if needed
-    public ActionResult<IEnumerable<Nota>> Search(string word, DateOnly? date) // Make date nullable
-    {
-        var query = _context.Notas.AsQueryable(); // Start with a queryable
-
-        // Filter by word (optional)
-        if (!string.IsNullOrEmpty(word))
-        {
-            query = query.Where(i => i.Title.Contains(word) || i.Content.Contains(word));
-        }
-
-        // Filter by date (if provided)
-        if (date.HasValue)
-        {
-            query = query.Where(i => i.Date == date.Value);
-        }
-
-        return query.ToList(); // Execute the query and return notes
+        var nota = _context.Notas.Where(i => i.Title.Contains(word) || i.Content.Contains(word)).ToList();
+        return nota;
     }
 
-
+    
 }

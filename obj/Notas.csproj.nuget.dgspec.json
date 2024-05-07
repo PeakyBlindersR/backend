@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/riwip5-020/Documents/VM3/VM/folder/backend/Notas.csproj": {}
+    "/home/riwip5-038/Desktop/backend/Notas.csproj": {}
   },
   "projects": {
-    "/home/riwip5-020/Documents/VM3/VM/folder/backend/Notas.csproj": {
+    "/home/riwip5-038/Desktop/backend/Notas.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/riwip5-020/Documents/VM3/VM/folder/backend/Notas.csproj",
+        "projectUniqueName": "/home/riwip5-038/Desktop/backend/Notas.csproj",
         "projectName": "Notas",
-        "projectPath": "/home/riwip5-020/Documents/VM3/VM/folder/backend/Notas.csproj",
-        "packagesPath": "/home/riwip5-020/.nuget/packages/",
-        "outputPath": "/home/riwip5-020/Documents/VM3/VM/folder/backend/obj/",
+        "projectPath": "/home/riwip5-038/Desktop/backend/Notas.csproj",
+        "packagesPath": "/home/riwip5-038/.nuget/packages/",
+        "outputPath": "/home/riwip5-038/Desktop/backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/riwip5-020/.nuget/NuGet/NuGet.Config"
+          "/home/riwip5-038/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
